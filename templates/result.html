@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SEO Report</title>
+
+<style>
+.score-container{
+width:600px;
+background:#ddd;
+border-radius:8px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.score-bar{
+height:30px;
+background:green;
+text-align:center;
+color:white;
+line-height:30px;
+font-weight:bold;
+}
+
+body{
+    font-family: Arial;
+    margin:40px;
+}
+
+h1{
+    color:#2c3e50;
+}
+
+.container{
+    width:600px;
+}
+
+.result-box{
+    background:#f4f6f7;
+    padding:15px;
+    margin:10px 0;
+    border-radius:6px;
+}
+
+.good{
+    color:green;
+}
+
+.bad{
+    color:red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>SEO Analysis Report</h1>
+
+<h2>SEO Score</h2>
+
+<div class="score-container">
+{% set score = result["SEO Score"] %}
+
+<div class="score-bar"
+style="width: {{ score }}%;
+background: {{ 'red' if score < 40 else 'orange' if score < 70 else 'green' }};">
+
+{{ result["SEO Score"] }} / 100
+
+</div>
+</div>
+
+<div class="container">
+
+<div class="result-box"><b>Title:</b> {{result["Title"]}}</div>
+
+<div class="result-box"><b>Word Count:</b> {{result["Word Count"]}}</div>
+
+<div class="result-box"><b>Keyword Count:</b> {{result["Keyword Count"]}}</div>
+
+<div class="result-box"><b>Keyword Density:</b> {{result["Keyword Density (%)"]}} %</div>
+
+<div class="result-box"><b>Meta Description:</b> {{result["Meta Description"]}}</div>
+
+<div class="result-box"><b>H1 Tags:</b> {{result["H1 Tags"]}}</div>
+
+<div class="result-box"><b>H2 Tags:</b> {{result["H2 Tags"]}}</div>
+
+<div class="result-box"><b>Images without ALT:</b> {{result["Images without ALT"]}}</div>
+
+<div class="result-box"><b>Readability Score:</b> {{result["Readability Score"]}}</div>
+
+<br>
+
+<a href="/">Analyze Another Page</a>
+
+</div>
+<h2>Suggestions</h2>
+
+<ul>
+{% for s in result["Suggestions"] %}
+<li>{{s}}</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
