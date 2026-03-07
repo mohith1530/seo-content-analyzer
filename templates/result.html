@@ -58,6 +58,16 @@ h1{
 
 <h1>SEO Analysis Report</h1>
 
+{% if "Error" in result %}
+
+<div class="result-box bad">
+<b>Error:</b> {{ result["Error"] }}
+</div>
+
+<a href="/">Go Back</a>
+
+{% else %}
+
 <h2>SEO Score</h2>
 
 <div class="score-container">
@@ -67,7 +77,7 @@ h1{
 style="width: {{ score }}%;
 background: {{ 'red' if score < 40 else 'orange' if score < 70 else 'green' }};">
 
-{{ result["SEO Score"] }} / 100
+{{ score }} / 100
 
 </div>
 </div>
@@ -75,21 +85,13 @@ background: {{ 'red' if score < 40 else 'orange' if score < 70 else 'green' }};"
 <div class="container">
 
 <div class="result-box"><b>Title:</b> {{result["Title"]}}</div>
-
 <div class="result-box"><b>Word Count:</b> {{result["Word Count"]}}</div>
-
 <div class="result-box"><b>Keyword Count:</b> {{result["Keyword Count"]}}</div>
-
 <div class="result-box"><b>Keyword Density:</b> {{result["Keyword Density (%)"]}} %</div>
-
 <div class="result-box"><b>Meta Description:</b> {{result["Meta Description"]}}</div>
-
 <div class="result-box"><b>H1 Tags:</b> {{result["H1 Tags"]}}</div>
-
 <div class="result-box"><b>H2 Tags:</b> {{result["H2 Tags"]}}</div>
-
 <div class="result-box"><b>Images without ALT:</b> {{result["Images without ALT"]}}</div>
-
 <div class="result-box"><b>Readability Score:</b> {{result["Readability Score"]}}</div>
 
 <br>
@@ -97,6 +99,7 @@ background: {{ 'red' if score < 40 else 'orange' if score < 70 else 'green' }};"
 <a href="/">Analyze Another Page</a>
 
 </div>
+
 <h2>Suggestions</h2>
 
 <ul>
@@ -104,6 +107,8 @@ background: {{ 'red' if score < 40 else 'orange' if score < 70 else 'green' }};"
 <li>{{s}}</li>
 {% endfor %}
 </ul>
+
+{% endif %}
 
 </body>
 </html>
