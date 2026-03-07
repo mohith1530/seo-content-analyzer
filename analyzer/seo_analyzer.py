@@ -4,35 +4,34 @@ import textstat
 
 def analyze_seo(url, keyword):
 
-    response = requests.get(
-    url,
-    verify=False,
-    timeout=10,
-    headers={"User-Agent": "Mozilla/5.0"}
-)
-    html = response.text
+    try:
+        response = requests.get(
+            url,
+            verify=False,
+            timeout=10,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+        html = response.text
+    except Exception as e:
+        return {"Error": f"Unable to fetch URL: {e}"}
 
     soup = BeautifulSoup(html, "html.parser")
 
-    # Get text
+    # Extract text
     text = soup.get_text().lower()
     words = text.split()
-
     word_count = len(words)
 
     keyword_count = text.count(keyword.lower())
 
-    if word_count > 0:
-        keyword_density = (keyword_count / word_count) * 100
-    else:
-        keyword_density = 0
+    keyword_density = (keyword_count / word_count) * 100 if word_count > 0 else 0
 
     # Title
-    title = soup.title.string if soup.title else "No title"
+    title = soup.title.string.strip() if soup.title and soup.title.string else "No title"
 
     # Meta description
     meta_desc = soup.find("meta", attrs={"name": "description"})
-    meta_description = meta_desc["content"] if meta_desc else "No meta description"
+    meta_description = meta_desc["content"] if meta_desc and meta_desc.get("content") else "No meta description"
 
     # Headings
     h1_tags = len(soup.find_all("h1"))
@@ -44,7 +43,6 @@ def analyze_seo(url, keyword):
 
     # Readability
     readability = textstat.flesch_reading_ease(text)
-    
 
     score = 0
     suggestions = []
@@ -90,7 +88,7 @@ def analyze_seo(url, keyword):
         score += 10
     else:
         suggestions.append("Improve readability")
-    
+
     result = {
         "SEO Score": score,
         "Title": title,
@@ -106,4 +104,3 @@ def analyze_seo(url, keyword):
     }
 
     return result
-
